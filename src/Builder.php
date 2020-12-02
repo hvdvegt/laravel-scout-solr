@@ -244,6 +244,8 @@ class Builder extends ScoutBuilder
         if (strpos($this->query, '*') !== false) {
             throw new \Exception('boost query can only be used with dismax query parser');
         }
+
+        $this->selectQueryParser();
         $this->boostQueries[] = $query;
 
         return $this;
