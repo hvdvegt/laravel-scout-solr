@@ -346,6 +346,13 @@ class SolrEngine extends Engine
             $dismax->setQueryFields($builder->getBoosts());
         }
 
+        // Set the boost fields
+        if (isset($dismax)) {
+            foreach ($builder->getBoostQueries() as $query) {
+                $dismax->setBoostQuery($query);
+            }
+        }
+
         // allow for pagination here
         if (array_key_exists('start', $options)) {
             $query->setStart($options['start']);

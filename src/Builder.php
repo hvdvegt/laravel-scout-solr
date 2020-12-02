@@ -44,6 +44,12 @@ class Builder extends ScoutBuilder
      * @var array
      */
     private $boostFields = [];
+    /**
+     * Array of queries => boost queries to add to the query.
+     *
+     * @var array
+     */
+    private $boostQueries = [];
 
     /**
      * Gets set when either the useDismax() method is called, or if one of the boosting methods is called.
@@ -227,6 +233,23 @@ class Builder extends ScoutBuilder
     }
 
     /**
+     * Add a boost query.
+     *
+     * @param string $field
+     * @param string|int $boost
+     * @return $this
+     */
+    public function boostQuery($query)
+    {
+        if (strpos($this->query, '*') !== false) {
+            throw new \Exception('boost query can only be used with dismax query parser');
+        }
+        $this->boostQueries[] = $query;
+
+        return $this;
+    }
+
+    /**
      * Set `$useDismax` or `$useExtendedDismax` to `true` based on the query.
      */
     private function selectQueryParser()
@@ -254,6 +277,14 @@ class Builder extends ScoutBuilder
     {
         return $this->getBoostsCollection()
             ->implode(' ');
+    }
+
+    /**
+     * @return string
+     */
+    public function getBoostQueries()
+    {
+        return $this->boostQueries;
     }
 
     /**
