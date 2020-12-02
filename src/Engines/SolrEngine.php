@@ -348,8 +348,8 @@ class SolrEngine extends Engine
 
         // Set the boost fields
         if (isset($dismax)) {
-            foreach ($builder->getBoostQueries() as $query) {
-                $dismax->setBoostQuery($query);
+            foreach ($builder->getBoostQueries() as $boostQuery) {
+                $dismax->setBoostQuery($boostQuery);
             }
         }
 
